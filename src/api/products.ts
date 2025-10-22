@@ -7,7 +7,7 @@ import {
   getProductsByCategory,
   getTopFivePopularProducts,
   createProduct,
-} from "../data/data";
+} from "../data/models/products";
 
 const products = Router();
 

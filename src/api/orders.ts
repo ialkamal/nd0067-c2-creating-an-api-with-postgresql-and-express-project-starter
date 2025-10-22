@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { Order } from "../helpers/types";
 import { auth } from "../middleware";
-import { currentOrderByUser, completedOrdersByUser } from "../data/data";
+import { currentOrderByUser, completedOrdersByUser } from "../data/models/orders";
 
 const orders = Router();
 

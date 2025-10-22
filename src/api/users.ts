@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { User } from "../helpers/types";
 import { auth } from "../middleware";
-import { createUser, getAllUsers, getUserByID } from "../data/data";
+import { createUser, getAllUsers, getUserByID } from "../data/models/users";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
