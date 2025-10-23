@@ -1,42 +1,135 @@
 # API Requirements
-The company stakeholders want to create an online storefront to showcase their great product ideas. Users need to be able to browse an index of all products, see the specifics of a single product, and add products to an order that they can view in a cart page. You have been tasked with building the API that will support this application, and your coworker is building the frontend.
 
-These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application. 
+This document outlines the API endpoints, database schema, and data shapes for the Storefront Backend API.
+
+---
 
 ## API Endpoints
-#### Products
-- Index 
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products 
-- [OPTIONAL] Products by category (args: product category)
 
-#### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+### Users
 
-#### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+| HTTP Verb | Route        | Description       | Authentication     |
+| --------- | ------------ | ----------------- | ------------------ |
+| **POST**  | `/users`     | Create a new user | None               |
+| **GET**   | `/users`     | Get all users     | **Token Required** |
+| **GET**   | `/users/:id` | Get user by ID    | **Token Required** |
+
+### Products
+
+| HTTP Verb | Route                          | Description                     | Authentication     |
+| --------- | ------------------------------ | ------------------------------- | ------------------ |
+| **GET**   | `/products`                    | Get all products                | None               |
+| **GET**   | `/products/:id`                | Get product by ID               | None               |
+| **GET**   | `/products/category/:category` | Get products by category        | None               |
+| **GET**   | `/products/top_five`           | Get top 5 most popular products | None               |
+| **POST**  | `/products`                    | Create a new product            | **Token Required** |
+
+### Orders
+
+| HTTP Verb | Route                              | Description                   | Authentication     |
+| --------- | ---------------------------------- | ----------------------------- | ------------------ |
+| **GET**   | `/orders`                          | Get all orders                | **Token Required** |
+| **GET**   | `/orders/users/:user_id`           | Get orders by user ID         | **Token Required** |
+| **GET**   | `/orders/users/:user_id/current`   | Get current order for user    | **Token Required** |
+| **GET**   | `/orders/users/:user_id/completed` | Get completed orders for user | **Token Required** |
+| **POST**  | `/orders`                          | Create a new order            | **Token Required** |
+| **POST**  | `/orders/:order_id/products`       | Add product to order          | **Token Required** |
+
+---
+
+## Database Schema
+
+### Table: users
+
+| Column        | Data Type | Constraints |
+| ------------- | --------- | ----------- |
+| **id**        | SERIAL    | PRIMARY KEY |
+| **firstname** | VARCHAR   | NOT NULL    |
+| **lastname**  | VARCHAR   | NOT NULL    |
+| **password**  | VARCHAR   | NOT NULL    |
+
+### Table: products
+
+| Column       | Data Type | Constraints |
+| ------------ | --------- | ----------- |
+| **id**       | SERIAL    | PRIMARY KEY |
+| **name**     | VARCHAR   | NOT NULL    |
+| **price**    | DECIMAL   | NOT NULL    |
+| **category** | VARCHAR   | NOT NULL    |
+
+### Table: orders
+
+| Column      | Data Type | Constraints                      |
+| ----------- | --------- | -------------------------------- |
+| **id**      | SERIAL    | PRIMARY KEY                      |
+| **user_id** | INTEGER   | FOREIGN KEY REFERENCES users(id) |
+| **status**  | BOOLEAN   | NOT NULL                         |
+
+_Note: status = true means active order, status = false means completed order_
+
+### Table: products_orders (Join Table)
+
+| Column         | Data Type | Constraints                         |
+| -------------- | --------- | ----------------------------------- |
+| **order_id**   | INTEGER   | FOREIGN KEY REFERENCES orders(id)   |
+| **product_id** | INTEGER   | FOREIGN KEY REFERENCES products(id) |
+| **quantity**   | INTEGER   | NOT NULL                            |
+|                |           | PRIMARY KEY (order_id, product_id)  |
+
+---
 
 ## Data Shapes
-#### Product
--  id
-- name
-- price
-- [OPTIONAL] category
 
-#### User
-- id
-- firstName
-- lastName
-- password
+### User
 
-#### Orders
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+```typescript
+type User = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  password: string;
+};
+```
 
+### Product
+
+```typescript
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+};
+```
+
+### Order
+
+```typescript
+type Order = {
+  id: number;
+  user_id: number;
+  status: boolean;
+};
+```
+
+### Product in Order
+
+```typescript
+type ProductInOrder = {
+  order_id: number;
+  product_id: number;
+  quantity: number;
+};
+```
+
+---
+
+## Authentication
+
+Routes marked with **Token Required** need a valid JWT token in the Authorization header:
+
+```
+Authorization: Bearer <token>
+```
+
+Tokens are generated when creating a new user via `POST /users`.

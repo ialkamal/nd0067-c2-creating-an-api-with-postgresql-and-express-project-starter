@@ -1,54 +1,169 @@
 # Storefront Backend Project
 
+This is a RESTful API for an online storefront built with Node.js, Express, and PostgreSQL. The API supports user authentication, product management, and order processing.
+
+---
+
+## Technologies Used
+
+- **Node.js** - JavaScript runtime
+- **Express** - Web application framework
+- **PostgreSQL** - Relational database
+- **TypeScript** - Type-safe JavaScript
+- **db-migrate** - Database migration tool
+- **jsonwebtoken** - JWT authentication
+- **bcrypt** - Password hashing
+- **Jasmine** - Testing framework
+- **Docker** - Container platform for PostgreSQL
+
+---
+
 ## Getting Started
 
-This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+### Prerequisites
 
-## Required Technologies
-Your application must make use of the following libraries:
-- Postgres for the database
-- Node/Express for the application logic
-- dotenv from npm for managing environment variables
-- db-migrate from npm for migrations
-- jsonwebtoken from npm for working with JWTs
-- jasmine from npm for testing
+- Node.js (v14 or higher)
+- Docker and Docker Compose
+- npm or yarn package manager
 
-## Steps to Completion
+---
 
-### 1. Plan to Meet Requirements
+## Setup Instructions
 
-In this repo there is a `REQUIREMENTS.md` document which outlines what this API needs to supply for the frontend, as well as the agreed upon data shapes to be passed between front and backend. This is much like a document you might come across in real life when building or extending an API. 
+### 1. Install Dependencies
 
-Your first task is to read the requirements and update the document with the following:
-- Determine the RESTful route for each endpoint listed. Add the RESTful route and HTTP verb to the document so that the frontend developer can begin to build their fetch requests.    
-**Example**: A SHOW route: 'blogs/:id' [GET] 
+```bash
+npm install
+```
 
-- Design the Postgres database tables based off the data shape requirements. Add to the requirements document the database tables and columns being sure to mark foreign keys.   
-**Example**: You can format this however you like but these types of information should be provided
-Table: Books (id:varchar, title:varchar, author:varchar, published_year:varchar, publisher_id:string[foreign key to publishers table], pages:number)
+### 2. Environment Variables
 
-**NOTE** It is important to remember that there might not be a one to one ratio between data shapes and database tables. Data shapes only outline the structure of objects being passed between frontend and API, the database may need multiple tables to store a single shape. 
+Create a `.env` file in the project root with the following variables:
 
-### 2.  DB Creation and Migrations
+```
+POSTGRES_HOST=127.0.0.1
+POSTGRES_PORT=5433
+POSTGRES_DB=store
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+SALT=10
+PEPPER=your-pepper-string
+JWT_SECRET=your-jwt-secret
+```
 
-Now that you have the structure of the database outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup your Postgres database. If you get stuck, you can always revisit the database lesson for a reminder. 
+### 3. Database Setup
 
-You must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in your application it will not pass.
+**Start PostgreSQL with Docker:**
 
-### 3. Models
+```bash
+docker-compose up -d
+```
 
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
+**Run Database Migrations:**
 
-### 4. Express Handlers
+```bash
+npm run db:migrate
+```
 
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints you create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled. 
+**Seed the Database (Optional):**
 
-### 5. JWTs
+```bash
+npm run db:seed
+```
 
-Add JWT functionality as shown in the course. Make sure that JWTs are required for the routes listed in `REQUIUREMENTS.md`.
+### 4. Start the Application
 
-### 6. QA and `README.md`
+**Development Mode:**
 
-Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
+```bash
+npm run server
+```
 
-Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+**Production Mode:**
+
+```bash
+npm run build
+npm start
+```
+
+---
+
+## Port Configuration
+
+| Service                 | Port |
+| ----------------------- | ---- |
+| **Backend API**         | 3000 |
+| **PostgreSQL Database** | 5433 |
+
+---
+
+## Database Connection
+
+The application connects to PostgreSQL using the following configuration:
+
+- **Host:** 127.0.0.1
+- **Port:** 5433
+- **Database:** store
+- **User:** postgres
+- **Password:** postgres
+
+The database runs in a Docker container. Make sure Docker is running before starting the application.
+
+---
+
+## Available Scripts
+
+| Script                    | Description                           |
+| ------------------------- | ------------------------------------- |
+| `npm run server`          | Start development server with ts-node |
+| `npm start`               | Start production server               |
+| `npm test`                | Run Jasmine test suite                |
+| `npm run db:migrate`      | Run database migrations               |
+| `npm run db:migrate:down` | Rollback last migration               |
+| `npm run db:reset`        | Reset all migrations                  |
+| `npm run db:seed`         | Seed database with sample data        |
+| `npm run db:setup`        | Run migrations and seed data          |
+
+---
+
+## Testing
+
+Run the test suite:
+
+```bash
+npm test
+```
+
+Tests include:
+
+- User model tests
+- Product model tests
+- Order model tests
+- API endpoint tests
+
+---
+
+## Project Structure
+
+```
+├── migrations/           # Database migration files
+├── spec/                # Jasmine configuration
+├── src/
+│   ├── api/            # Express route handlers
+│   ├── data/           # Database models
+│   ├── helpers/        # Utility functions
+│   ├── middleware/     # Authentication middleware
+│   ├── tests/          # Test files
+│   └── server.ts       # Application entry point
+├── .env                # Environment variables (not in repo)
+├── docker-compose.yml  # Docker configuration
+├── database.json       # Database connection config
+├── package.json        # Project dependencies
+└── tsconfig.json       # TypeScript configuration
+```
+
+---
+
+## API Documentation
+
+For detailed API endpoint documentation, see [REQUIREMENTS.md](REQUIREMENTS.md).

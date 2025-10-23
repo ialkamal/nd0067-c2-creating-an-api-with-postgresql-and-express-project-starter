@@ -7,8 +7,13 @@
     "server": "ts-node ./src/server.ts",
     "start": "node src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "jasmine-ts",
-    "tsc": "tsc"
+    "test": "npx jasmine-ts",
+    "tsc": "tsc",
+    "db:migrate": "npx db-migrate up",
+    "db:migrate:down": "npx db-migrate down",
+    "db:reset": "npx db-migrate reset",
+    "db:seed": "docker compose exec -T postgres psql -U postgres -d store < migrations/sqls/seed_store.sql",
+    "db:setup": "npm run db:migrate && npm run db:seed"
   },
   "author": "Udacity",
   "license": "ISC",
@@ -28,12 +33,14 @@
     "@types/jasmine": "^3.6.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/pg": "^7.14.7",
+    "@types/supertest": "^6.0.3",
     "db-migrate": "^0.11.14",
     "db-migrate-pg": "^1.5.2",
     "gitignore": "^0.7.0",
     "jasmine": "^3.6.4",
     "jasmine-spec-reporter": "^6.0.0",
     "jasmine-ts": "^0.3.0",
+    "supertest": "^7.1.4",
     "ts-node": "^10.9.2",
     "tsc-watch": "^4.2.9"
   }
