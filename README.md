@@ -86,6 +86,15 @@ npm run build
 npm start
 ```
 
+### 4. Postman Collection
+
+Added postman collection which can be imported to test the routes.
+It can be found in the root directory.
+Create a new environment variable in postman as follows: 
+```bash
+base_URL=localhost:3000
+```
+
 ---
 
 ## Port Configuration

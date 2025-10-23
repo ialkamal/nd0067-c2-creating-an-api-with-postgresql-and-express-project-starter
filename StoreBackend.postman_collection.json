@@ -1,0 +1,293 @@
+{
+	"info": {
+		"_postman_id": "8502dc6f-5263-4bd1-8444-0fb28214a82a",
+		"name": "StoreBackend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49377691",
+		"_collection_link": "https://ismail-alkamal-5891872.postman.co/workspace/Personal-Workspace~7ca3f4a3-1bd0-4e2c-81f5-be35b7478b02/collection/49377691-8502dc6f-5263-4bd1-8444-0fb28214a82a?action=share&source=collection_link&creator=49377691"
+	},
+	"item": [
+		{
+			"name": "API TEST",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}",
+					"host": [
+						"{{base_URL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(pm.response.text());\r",
+							"pm.environment.set(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\":\"Ismail\",\r\n    \"lastName\": \"AlKamal\",\r\n    \"password\":\"jinny\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/signup",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Index Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_URL}}/users",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show User",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_URL}}/users",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Current Order",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_URL}}/orders/current/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"orders",
+						"current",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Completed Orders",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_URL}}/orders/completed/10",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"orders",
+						"completed",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Index Products",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{base_URL}}/products",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show Product",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{base_URL}}/products/5",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"products",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Big Thing\",\r\n    \"price\": \"499.99\",\r\n    \"category\": \"gadgets\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/products",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show Product By Category",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{base_URL}}/products/category/tools",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"products",
+						"category",
+						"tools"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show Top 5 Most Popular Products",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{base_URL}}/products/top_five",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"products",
+						"top_five"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
