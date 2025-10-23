@@ -28,12 +28,8 @@ This document outlines the API endpoints, database schema, and data shapes for t
 
 | HTTP Verb | Route                              | Description                   | Authentication     |
 | --------- | ---------------------------------- | ----------------------------- | ------------------ |
-| **GET**   | `/orders`                          | Get all orders                | **Token Required** |
-| **GET**   | `/orders/users/:user_id`           | Get orders by user ID         | **Token Required** |
-| **GET**   | `/orders/users/:user_id/current`   | Get current order for user    | **Token Required** |
-| **GET**   | `/orders/users/:user_id/completed` | Get completed orders for user | **Token Required** |
-| **POST**  | `/orders`                          | Create a new order            | **Token Required** |
-| **POST**  | `/orders/:order_id/products`       | Add product to order          | **Token Required** |
+| **GET**   | `/orders/current/:user_id`   | Get current order for user    | **Token Required** |
+| **GET**   | `/orders/completed/:user_id` | Get completed orders for user | **Token Required** |
 
 ---
 
