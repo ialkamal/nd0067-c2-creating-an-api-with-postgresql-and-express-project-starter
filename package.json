@@ -7,7 +7,7 @@
     "server": "ts-node ./src/server.ts",
     "start": "node src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "npx jasmine-ts",
+    "test": "ENV=test && npx db-migrate --env test up && npx jasmine-ts && npx db-migrate db:drop test",
     "tsc": "tsc",
     "db:migrate": "npx db-migrate up",
     "db:migrate:down": "npx db-migrate down",
