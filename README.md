@@ -41,9 +41,11 @@ npm install
 Create a `.env` file in the project root with the following variables:
 
 ```
+ENV=dev
 POSTGRES_HOST=127.0.0.1
 POSTGRES_PORT=5433
 POSTGRES_DB=store
+POSTGRES_DB_TEST=test
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 SALT=10
@@ -118,6 +120,14 @@ The application connects to PostgreSQL using the following configuration:
 
 The database runs in a Docker container. Make sure Docker is running before starting the application.
 
+The test database: 
+
+- **Host:** 127.0.0.1
+- **Port:** 5433
+- **Database:** test
+- **User:** postgres
+- **Password:** postgres
+
 ---
 
 ## Available Scripts
@@ -137,7 +147,14 @@ The database runs in a Docker container. Make sure Docker is running before star
 
 ## Testing
 
-Run the test suite:
+
+Before running the tests, run the server:
+
+```bash
+npm run server
+```
+
+Then, in another terminal, run the test suite::
 
 ```bash
 npm test
